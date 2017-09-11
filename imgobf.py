@@ -26,6 +26,9 @@ try:
 	# convert the image to a numpy array of pixel values
 	img_arr = np.array(IMAGE_SOURCE)
 	
+	img_rows = img_arr.shape[0]
+	img_cols = img_arr.shape[1]
+	
 except:
 
 	# if there is a problem loading the source image
@@ -34,13 +37,14 @@ except:
 
 if MODE == "e" or MODE == "encrypt":
 	
-	# create a second array to hold the key
-	key_arr = np.zeros(img_arr.shape)
+	# create a key to encrypt the image with
+	IMAGE_KEY = Image.new("RGB", (img_cols, img_rows), "white")
+	key_arr = np.array(IMAGE_KEY)
 	
 	# iterate through the arrays
-	for i in range(img_arr.shape[0]):
-		for j in range(img_arr.shape[1]):
-			for k in range(img_arr.shape[2]):
+	for i in range(img_rows):
+		for j in range(img_cols):
+			for k in range(3):
 				
 				# populate the key array with random numbers
 				key_arr[i][j][k] = random.randint(0, 255)
@@ -50,17 +54,9 @@ if MODE == "e" or MODE == "encrypt":
 				
 	# cast the image array back into an image object
 	IMAGE_ENCRYPTED = Image.fromarray(img_arr)
-				
-	# iterate through the arrays
-	for i in range(img_arr.shape[0]):
-		for j in range(img_arr.shape[1]):
-			for k in range(img_arr.shape[2]):
-				
-				# write the key data into the image array
-				img_arr[i][j][k] = key_arr[i][j][k]
 			
-	# cast the key array into an image object
-	IMAGE_KEY = Image.fromarray(img_arr)
+	# cast the key array back into an image object
+	IMAGE_KEY = Image.fromarray(key_arr)
 	
 	# write the encrypted image and key to the hard drive
 	IMAGE_ENCRYPTED.save("encrypted.png")
@@ -83,9 +79,9 @@ if MODE == "d" or MODE == "decrypt":
 		sys.exit(1)
 		
 	# iterate through the arrays
-	for i in range(img_arr.shape[0]):
-		for j in range(img_arr.shape[1]):
-			for k in range(img_arr.shape[2]):
+	for i in range(img_rows):
+		for j in range(img_cols):
+			for k in range(3):
 				
 				# XOR the image array with the key array
 				img_arr[i][j][k] = int(img_arr[i][j][k]) ^ int(key_arr[i][j][k])
