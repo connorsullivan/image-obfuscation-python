@@ -1,8 +1,8 @@
 
-# Program: 			Image Obfuscator
+# Program: 		Image Obfuscator
 # Description: 		Encrypts or decrypts image files using an XOR cipher with a randomly generated one time pad
-# Author:			Connor Sullivan
-# Date:				September 11 2017
+# Author:		Connor Sullivan
+# Date:			September 11 2017
 
 from PIL import Image
 
